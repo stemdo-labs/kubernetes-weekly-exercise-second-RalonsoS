@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: phpmyadmin-configmap
+  namespace: laravel
+data:
+  PMA_HOST: bbdd-svc.laravel.svc.cluster.local
+  PMA_PORT: "3306"

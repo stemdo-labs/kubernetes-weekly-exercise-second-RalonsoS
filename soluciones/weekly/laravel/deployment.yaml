@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel
+  namespace: laravel
+spec:
+  selector:
+    matchLabels:
+      app: laravel
+  template:
+    metadata:
+      labels:
+        app: laravel
+    spec:
+      containers:
+      - name: laravel
+        image: bitnami/laravel:11.0.8
+        ports:
+        - containerPort: 8000
+        envFrom:
+          - configMapRef:
+              name: laravel-config-map
+          - secretRef:
+              name: laravel-secrets
+        livenessProbe:
+          httpGet:
+              path: /
+              port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+              path: /
+              port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 15
+        resources: 
+          requests:
+            memory: "512Mi"
+            cpu: "800m"
+          limits:
+            memory: "700Mi"
+            cpu: "1000m"
+        volumeMounts:
+          - name: laravel-persistent-storage
+            mountPath: /app
+      volumes:
+        - name: laravel-persistent-storage
+          persistentVolumeClaim:
+            claimName: laravel-pvc
+

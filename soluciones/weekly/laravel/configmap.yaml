@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: laravel-config-map
+  namespace: laravel
+data:
+  LARAVEL_PORT_NUMBER: "8000"
+  LARAVEL_SKIP_COMPOSER_UPDATE: "no"
+  LARAVEL_SKIP_DATABASE: "no"
+  LARAVEL_DATABASE_TYPE: "mysql"
+  LARAVEL_DATABASE_HOST: "bbdd-svc"
+  LARAVEL_DATABASE_PORT_NUMBER: "3306"
