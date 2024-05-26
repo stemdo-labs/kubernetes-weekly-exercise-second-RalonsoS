@@ -1,0 +1,14 @@
+{{- if .Values.withPhpmyadmin }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service
+  namespace: {{.Values.namespace}}
+spec:
+  type: ClusterIP
+  selector:
+    app: phpmyadmin
+  ports:
+  - port: 80
+    targetPort: 80
+{{- end -}}
