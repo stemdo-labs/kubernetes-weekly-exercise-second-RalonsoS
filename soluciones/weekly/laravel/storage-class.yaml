@@ -1,8 +1,0 @@
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: laravel-sc
-  namespace: laravel
-provisioner: kubernetes.io/no-provisioner
-reclaimPolicy: Delete
-volumeBindingMode: WaitForFirstConsumer
