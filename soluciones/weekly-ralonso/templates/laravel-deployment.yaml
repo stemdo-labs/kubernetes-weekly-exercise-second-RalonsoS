@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-deploy-{{ .Release.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    exercise: weekly
+spec:
+  selector:
+    matchLabels:
+      app: laravel
+  replicas: {{.Values.laravel.replicas}}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: laravel
+    spec:
+      containers:
+      - name: laravel
+        image: bitnami/laravel:{{ .Values.laravel.tag }}
+        ports:
+        - containerPort: 8000
+        envFrom:
+          - configMapRef:
+              name: laravel-config-map
+          - secretRef:
+              name: laravel-secrets
+        livenessProbe:
+          httpGet:
+              path: /
+              port: 8000
+          initialDelaySeconds: 90
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+              path: /
+              port: 8000
+          initialDelaySeconds: 90
+          periodSeconds: 15
+        resources: 
+          requests:
+            memory: {{ .Values.laravel.resources.requests.memory }}
+            cpu: {{ .Values.laravel.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.laravel.resources.limits.memory }}
+            cpu: {{ .Values.laravel.resources.limits.cpu }}
+        volumeMounts:
+          - name: laravel-persistent-storage
+            mountPath: /app
+      volumes:
+        - name: laravel-persistent-storage
+          persistentVolumeClaim:
+            claimName: laravel-pvc
+

@@ -1,0 +1,40 @@
+{{- if .Values.withPhpmyadmin }}
+1. Laravel y phpMyAdmin se han desplegado exitosamente.
+
+Para acceder a Laravel, visita:
+
+  http://{{ .Values.ingresslaravel.host }}{{ .Values.ingresslaravel.path }}
+
+Para acceder a phpMyAdmin, visita:
+
+  http://{{ .Values.ingressphpmyadmin.host }}{{ .Values.ingressphpmyadmin.path }}
+
+{{- else }}
+1. Laravel se ha desplegado exitosamente.
+
+Para acceder a Laravel, visita:
+
+  http://{{ .Values.ingresslaravel.host }}{{ .Values.ingresslaravel.path }}
+
+{{- end }}
+
+2. La base de datos MySQL se ha configurado correctamente y está disponible a través del servicio `bbdd-svc`.
+
+3. Configuración de acceso a la base de datos:
+
+  - Host: `bbdd-svc`
+  - Puerto: `3306`
+  - Usuario: {{ .Values.bbddconfig.user }}
+  - Contraseña: {{ .Values.bbddconfig.password }}
+  - Base de datos: {{ .Values.bbddconfig.db }}
+
+4. La aplicación Laravel se está ejecutando en el puerto `8000` dentro del contenedor.
+
+5. Los recursos persistentes para Laravel y MySQL se han creado exitosamente.
+
+Para comprobar el estado de los pods y otros recursos, puedes usar los siguientes comandos:
+
+```sh
+kubectl get pods -n {{ .Values.namespace }}
+kubectl get svc -n {{ .Values.namespace }}
+kubectl get ing -n {{ .Values.namespace }}

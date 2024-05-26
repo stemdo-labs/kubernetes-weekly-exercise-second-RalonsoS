@@ -1,0 +1,23 @@
+{{- if .Values.withPhpmyadmin }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phpmyadmin-ingress
+  namespace: {{.Values.namespace}}
+  labels:
+    name: phpmyadmin
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: {{ .Values.ingressphpmyadmin.host }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: {{ .Values.ingressphpmyadmin.path }}
+        backend:
+          service:
+            name: phpmyadmin-service
+            port: 
+              number: 80
+{{- end -}}

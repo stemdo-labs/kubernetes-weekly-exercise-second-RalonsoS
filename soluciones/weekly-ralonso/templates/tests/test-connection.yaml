@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "weekly-ralonso.fullname" . }}-test-connection"
+  labels:
+    {{- include "weekly-ralonso.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "weekly-ralonso.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

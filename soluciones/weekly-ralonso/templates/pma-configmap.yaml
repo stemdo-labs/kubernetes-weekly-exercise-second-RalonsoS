@@ -1,0 +1,11 @@
+{{- if .Values.withPhpmyadmin }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: phpmyadmin-configmap
+  namespace: {{ .Values.namespace }}
+data:
+  PMA_HOST: bbdd-svc.{{ .Values.namespace }}.svc.cluster.local
+  PMA_PORT: "3306"
+
+{{- end }}
