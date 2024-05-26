@@ -1,0 +1,44 @@
+namespace: weekly
+
+laravel:
+  tag: 11.0.8
+  replicas: 1
+  resources:
+    requests:
+      memory: "100Mi"
+      cpu: "0.5"
+    limits:
+      memory: "500Mi"
+      cpu: "1"
+
+mysql:
+  tag: 8.4.0
+  resources:
+    requests:
+      memory: "500Mi"
+      cpu: "0.5"
+    limits:
+      memory: "800Mi"
+      cpu: "1"
+
+bbddconfig:
+  db: laravel 
+  user: rafa
+  password: 1234
+  rootpassword: 5678
+
+withPhpmyadmin: false
+
+ingresslaravel:
+  host: laravel
+  path: "/"
+
+persistentVolumes:
+  mysql:
+    hostpath: /mnt/data/mysql
+    storage: 1Gi
+    requestStorage: 500Mi
+  laravel:
+    hostpath: /mnt/data/laravel
+    storage: 500Mi
+    requestStorage: 500Mi
